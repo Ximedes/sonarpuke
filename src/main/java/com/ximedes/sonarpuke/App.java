@@ -34,6 +34,10 @@ public class App {
 			LinkedTreeMap projectStatus = (LinkedTreeMap) response.get("projectStatus");
 			project.qualityGateStatus = (String) projectStatus.get("status");
 
+
+			Map<String,String> projectLinks = getProjectLinks(project.key);
+			project.homepage = projectLinks.get("Home");
+
 			projects.add(project);
 		}
 
@@ -88,5 +92,31 @@ public class App {
 		return null;
 	}
 
+	private static Map getProjectLinks(String id) throws IOException {
 
+		URL url = new URL(SONAR_URL + "/api/project_links/search?projectKey=" + id);
+
+		HashMap<String, String> urls = new HashMap<>();
+
+		try (InputStream content = (InputStream) url.getContent();
+			 // Dirty trick using Scanner to read stream into string.
+			 Scanner scanner = new Scanner(content).useDelimiter("\\a")
+		) {
+			while (scanner.hasNext()) {
+				String rawJson = scanner.next();
+				Gson gson = new Gson();
+
+
+				LinkedTreeMap linkedTreeMap = gson.fromJson(rawJson, LinkedTreeMap.class);
+				List<LinkedTreeMap> links = (List)linkedTreeMap.get("links");
+
+				for (LinkedTreeMap link : links) {
+					String name = (String) link.get("name");
+					String prul = (String) link.get("url");
+					urls.put(name, prul);
+				}
+			}
+		}
+		return urls;
+	}
 }

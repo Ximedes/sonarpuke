@@ -8,6 +8,7 @@ public class Project {
 	String key;
 	String name;
 	String qualityGateStatus;
+	public String homepage;
 
 	public String getName() {
 		return name;
@@ -23,6 +24,10 @@ public class Project {
 
 	public String getQualityGateStatus() {
 		return qualityGateStatus;
+	}
+
+	public String getHomepage() {
+		return homepage;
 	}
 
 	@Override
