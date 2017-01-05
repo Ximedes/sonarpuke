@@ -17,11 +17,25 @@ import java.util.List;
  */
 public class App {
 
-	public static final String SONAR_URL = "http://sonar.chess.int";
-
 	public static void main(String[] args) throws Exception {
 
-		SonarApi sonarApi = new SonarApi(SONAR_URL);
+		if (args.length != 3) {
+			System.out.println("Usage:");
+			System.out.println("  sonarpuke <sonar url> <velocity template> <output>");
+
+			System.out.println("");
+			System.out.println("Example:");
+			System.out.println("  sonarpuke http://sonar.mycompany.net dashboard.vm index.html");
+
+			return;
+		}
+
+
+		String sonarurl = args[0];
+		String velocitytemplate = args[1];
+		String outputfile = args[2];
+
+		SonarApi sonarApi = new SonarApi(sonarurl);
 		List<Project> projects = sonarApi.getProjects();
 
 		// Example for project sorting
@@ -36,7 +50,6 @@ public class App {
 				} else {
 					return -1;
 				}
-
 			}
 		});
 
@@ -45,8 +58,12 @@ public class App {
 		VelocityContext ctx = new VelocityContext();
 		ctx.put("projects", projects);
 
-		try (FileWriter fileWriter = new FileWriter(new File("target/index.html"))) {
-			Velocity.mergeTemplate("target/classes/dashboard.vm", "UTF-8", ctx, fileWriter);
+		try (FileWriter fileWriter = new FileWriter(new File(outputfile))) {
+			Velocity.mergeTemplate(velocitytemplate, "UTF-8", ctx, fileWriter);
 		}
+
+		System.out.println("Written dashboard for "+sonarurl);
+		System.out.println("             based on "+velocitytemplate);
+		System.out.println("                   to "+outputfile);
 	}
 }
