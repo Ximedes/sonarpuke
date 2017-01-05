@@ -8,9 +8,7 @@ import org.apache.velocity.app.Velocity;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Dirty code to read Sonar Project Status and generate an overview in a table.
@@ -42,14 +40,12 @@ public class App {
 		Collections.sort(projects, new Comparator<Project>() {
 			@Override
 			public int compare(Project o1, Project o2) {
-				String status1 = o1.getProjectStatus().getStatus();
-				ProjectStatus status2 = o2.getProjectStatus();
+				List<String> statusOrder = Arrays.asList(new String[]{"ERROR", "WARN", "NONE", "OK"});
 
-				if (status1 != null) {
-					return status1.compareTo(status2.getStatus());
-				} else {
-					return -1;
-				}
+				int i1 = statusOrder.indexOf(o1.getProjectStatus().getStatus());
+				int i2 = statusOrder.indexOf(o2.getProjectStatus().getStatus());
+
+				return i1-i2;
 			}
 		});
 
