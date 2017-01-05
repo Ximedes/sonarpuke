@@ -8,8 +8,8 @@
     </tr>
     #foreach ( $project in ${projects} )
     <tr>
-        <td><a href="${project.homepage}">${project.name}</a></td>
-        <td>${project.qualityGateStatus}</td>
+        <td><a href="${project.links.home}">${project.name}</a></td>
+        <td>${project.projectStatus.status}</td>
     </tr>
     #end
 </table>
