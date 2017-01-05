@@ -12,8 +12,7 @@ dashboard page, run the following commands:
 ```
 $ git clone https://github.com/Ximedes/sonarpuke.git
 $ cd sonarpuke
-$ mvn clean package
-$ java -jar target/sonarpuke-1.0-SNAPSHOT-jar-with-dependencies.jar \
+$ ./sonarpuke.sh \
   http://your.sonar.install \
   target/classes/dashboard.vm \
   target/index.html
