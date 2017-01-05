@@ -18,7 +18,7 @@ public class Project {
 		this.name = name;
 
 		projectStatus = new ProjectStatus(sonarapi, key);
-		projectLinks = new ProjectLinks(sonarapi, key);
+		projectLinks = new ProjectLinks(sonarapi, key, id);
 	}
 
 	public String getName() {

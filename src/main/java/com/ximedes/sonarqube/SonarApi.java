@@ -38,6 +38,10 @@ public class SonarApi {
 		return projectArrayList;
 	}
 
+	String getSonarurl(){
+		return sonarurl;
+	}
+
 	LinkedTreeMap getLinkedTreeMap(String s) {
 		try (InputStream content = (InputStream) new URL(sonarurl + s).getContent();
 			 // Dirty trick using Scanner to read stream into string.
